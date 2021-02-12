@@ -86,3 +86,45 @@ Referer: https://www.hackthebox.eu/
 Authorization: BASIC cGFzc3dvcmQK
 <SNIP>
 ```
+
+4. Response Headers
+
+Os cabeçalhos de resposta HTTP podem ser usados em uma resposta HTTP e não se relacionam com o conteúdo da mensagem. Certos cabeçalhos de resposta, como Idade, Local e Servidor, são usados para fornecer mais contexto sobre a resposta. Os cabeçalhos a seguir são comumente vistos em respostas HTTP.
+
+| Header             | Description                                                                                                                                                                                                                |
+| ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Server`           | O cabeçalho do **servidor** contém informações sobre o servidor HTTP, que tratou a solicitação. Ele pode ser usado para obter informações sobre o servidor, como sua versão, e enumerá-lo posteriormente.                  |
+| `Set-Cookie`       | O cabeçalho **Set-Cookie** contém os cookies necessários para a identificação do cliente. Os navegadores analisam os cookies e os armazenam para solicitações futuras. Este cabeçalho segue o mesmo formato do guia Cookie |
+| `WWW-Authenticate` | O cabeçalho **WWW-Authenticate** notifica o cliente sobre o tipo de autenticação necessária para acessar o recurso solicitado.                                                                                             |
+
+Response Headers - Example
+
+```xml
+lavisa@htb[/htb]$ curl -I -X GET https://www.inlanefreight.com
+
+<SNIP>
+Server: Apache/2.2.14 (Win32)
+Set-Cookie: name1=value1,name2=value2; Expires=Wed, 09 Jun 2021 10:18:14 GMT
+WWW-Authenticate: BASIC realm="localhost"
+```
+
+5. Security Headers
+
+Com o aumento da variedade de navegadores e ataques baseados na web, foi necessário definir alguns cabeçalhos que aumentaram a segurança. Os cabeçalhos de segurança HTTP são uma classe de cabeçalhos de resposta usados para especificar certas regras e políticas a serem seguidas pelo navegador ao acessar o site.
+
+| Header                      | Description                                                                                                                                                                                                                                                                                                                                 |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Content-Security-Policy`   | O cabeçalho CSP dita a política do site em relação aos recursos injetados externamente. Isso pode ser código JavaScript, bem como recursos de script. Esse cabeçalho instrui o navegador a aceitar recursos apenas de determinados domínios confiáveis, evitando, assim, ataques como script entre sites.                                   |
+| `Strict-Transport-Security` | A política HTTP Strict Transport Security de um site da Web impede que o navegador acesse o site por meio do protocolo HTTP de texto simples. Toda a comunicação é feita por meio do protocolo HTTPS seguro. Isso evita que invasores farejem o tráfego da web e acessem informações protegidas, como senhas ou outros dados confidenciais. |
+| `Referrer-Policy`           | Este cabeçalho determina se o navegador deve incluir o valor especificado por meio do cabeçalho Referer ou não. Pode ajudar a evitar a divulgação de URLs e informações confidenciais durante a navegação no site.                                                                                                                          |
+
+Security Headers - Example
+
+```xml
+lavisa@htb[/htb]$ curl -I -X GET https://www.inlanefreight.com
+
+<SNIP>
+Content-Security-Policy: script-src 'self'
+Strict-Transport-Security: max-age=31536000
+Referrer-Policy: origin
+```
